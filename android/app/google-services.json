@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1085718315239",
+    "firebase_url": "https://sadiki-e3db2.firebaseio.com",
+    "project_id": "sadiki-e3db2",
+    "storage_bucket": "sadiki-e3db2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085718315239:android:e70be599ede10f5d",
+        "android_client_info": {
+          "package_name": "com.dihlo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1085718315239-fgjh3n2qt257dh3ialhrvuhua9eqer7c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dihlo",
+            "certificate_hash": "dfacde900bb5c8b6ae6ac23bf76c90594f0b55cd"
+          }
+        },
+        {
+          "client_id": "1085718315239-luko6g8h5juo6f6gtdslevuk30h58ccj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB_ZAjl9yQgxsU1vetk-frD1ILRADJGEs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1085718315239-luko6g8h5juo6f6gtdslevuk30h58ccj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
