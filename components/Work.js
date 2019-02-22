@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, Dimensions, Image, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, Dimensions, Image, StyleSheet, Picker } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Pagination, WhiteSpace, WingBlank, Steps, Button } from 'antd-mobile-rn';
+import { Pagination, WhiteSpace, WingBlank, Steps, Button, DatePicker, List} from 'antd-mobile-rn';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {schedules} from '../actions';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Spend from './Spend.js';
+import Balance from './Balance.js';
+import Sum from './Sum.js';
 
 class Work extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {	
+		this.state = {
 			spend: false,
 			balance: false,
 			sum: false,
@@ -21,37 +24,21 @@ class Work extends Component {
 			and: false,
 			or: false,
 		}
-
 	}
 
 	renderSpend() {
 		const { spend } = this.state;
-		   
-		 return (
-		   <View style={{ padding: 25 }}>
-			 <Text>Потратил</Text>
-		   </View>
-		 );
+		return ( <Spend/> );
 	}
 
 	renderBalance() {
 		const { balance } = this.state;
-		   
-		 return (
-		   <View style={{ padding: 25 }}>
-			 <Text>баланс</Text>
-		   </View>
-		 );
+		return ( <Balance/> );
 	}
 
 	renderSum() {
 		const { sum } = this.state;
-		   
-		 return (
-		   <View style={{ padding: 25 }}>
-			 <Text>сумма</Text>
-		   </View>
-		 );
+		return ( <Sum/> );
 	}
 
 	renderCategory() {
@@ -114,17 +101,30 @@ class Work extends Component {
 						<Text style={styles.progtitle}>Действие</Text>
 				</View>
 				<WhiteSpace/>
-				<View>
-					{spend && this.renderSpend()}
-					{balance && this.renderBalance()}
-					{sum && this.renderSum()}
-					{category && this.renderCategory()}
-					{bigger && this.renderBigger()}
-					{smaller && this.renderSmaller()}
-					{and && this.renderAnd()}
-					{or && this.renderOr()}
-				</View>
-				<WhiteSpace/>
+				<View style={styles.container}>
+					<View style={{flex: 1, textAlign: 'center'}}>
+						{spend && this.renderSpend()}
+						{balance && this.renderBalance()}
+						{sum && this.renderSum()}
+						{category && this.renderCategory()}
+						{bigger && this.renderBigger()}
+						{smaller && this.renderSmaller()}
+						{and && this.renderAnd()}
+						{or && this.renderOr()}
+					</View>
+
+					<View style={{flex: 1, textAlign: 'center'}}>
+						{spend && this.renderSpend()}
+						{balance && this.renderBalance()}
+						{sum && this.renderSum()}
+						{category && this.renderCategory()}
+						{bigger && this.renderBigger()}
+						{smaller && this.renderSmaller()}
+						{and && this.renderAnd()}
+						{or && this.renderOr()}
+					</View>
+				</View>	
+					<WhiteSpace/>
 				<View>
 					<WhiteSpace/>
 					<Text style={{ flex: 1,  marginLeft: 10}}>Условия</Text>
