@@ -42,7 +42,7 @@ const Routes = () => (
 		        </Scene>
 	      	 	<Scene key = "prodtab" title="Продукты" titleStyle={{ color: 'white' }} iconname="box-open" icon={TabIcon}>
 			         <Scene key = "prod" component = {Prod} />
-					 <Scene initial={true} key = "work" component = {Work} title="IFFFT"/>
+					 <Scene initial={true} key = "work" component = {Work} title="DIY платежи"/>
 		        </Scene>
 	      	 	<Scene key = "paytab" title="Оплатить"  titleStyle={{ color: 'white' }} iconname="ruble-sign" icon={TabIcon}>
 			         <Scene key = "pay" component = {News} />

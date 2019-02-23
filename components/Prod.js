@@ -62,7 +62,7 @@ export default class Prod extends Component {
 						width: win.width - 50,
 						borderBottomColor: '#ccccccd6',
 						borderBottomWidth: 1.5,
-						}}>IFFFT для Вас</Text> 
+						}}>DIY платежи</Text> 
 				</TouchableOpacity >				
 			</ScrollView>
 	)}
