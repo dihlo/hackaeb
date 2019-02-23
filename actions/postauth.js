@@ -12,21 +12,22 @@ export const postauth = (data) => {
 		  url:'http://diybankapi.s-vfu.ru/api/v1/login',
 		  data: data
 		})
-		  .then(function(response) {
-					console.log(response)
-					dispatch({
+		.then(function(response) {
+				console.log(response)
+				dispatch({
 					type: "POST_AUTH_OK",
 					responseData: response.data.token,
-					});
-					axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
-					Actions.prodtab();
-		  })
-		  .catch(function (error) {
+				});
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
+				Actions.prodtab();
+		})
+		.catch(function (error) {
 			console.log(error)  
-		   	dispatch({
+			dispatch({
 				type: "POST_AUTH_ERROR",
 				responseData: "error_meals",
-			});		  	
+			});
+			Actions.prodtab();
 		});
 	};
 };

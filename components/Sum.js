@@ -5,7 +5,9 @@ import React, { Component } from 'react'
 export default class Sum extends Component {
   constructor(props){
     super(props)
-    this.state = { number: '' };
+    this.state = { 
+      number: this.props.amount
+    };
   }
 
   render(){
@@ -15,7 +17,7 @@ export default class Sum extends Component {
         <TextInput
             style={{height: 40, borderBottomColor: 'gray', borderBottomWidth: 1}}
             onChangeText={(number) => this.setState({number})}
-            value={this.state.text}
+            value={this.state.number}
         />
     </View>  
     )
