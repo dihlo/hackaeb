@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Button, Text, TextInput, Image } from 'react-native';
 import axios from 'axios';
-import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -16,31 +15,33 @@ class PhoneAuthTest extends Component {
       user: null,
       message: '',
       codeInput: '',
-      phoneNumber: '+7',
       confirmResult: null,
       toGoinMain: null,
+      username: 'user2',
+      password: 'password2'
     };
   }
 
   componentDidMount() {
-    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ user: user.toJSON() });
-      } else {
-        // User has been signed out, reset the state
-        this.setState({
-          user: null,
-          message: '',
-          codeInput: '',
-          phoneNumber: '+7',
-          confirmResult: null,
-        });
-      }
-    });
+    const { user } = this.state;
+    if (user) {
+      this.setState({ user: user.toJSON() });
+      this.goToMain();
+    } else {
+      // User has been signed out, reset the state
+      this.setState({
+        user: null,
+        message: '',
+        codeInput: '',
+        confirmResult: null,
+        username: 'user1',
+        password: 'password1'
+      });
+    }
   }
 
   componentWillUnmount() {
-     if (this.unsubscribe) this.unsubscribe();
+     //if (this.unsubscribe) this.unsubscribe();
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -52,109 +53,56 @@ class PhoneAuthTest extends Component {
     return true;
   }
 
-  /*componentWillReceiveProps(nextProps) {
-    if(nextProps.data !== this.props.data) {
-      console.log('izmennenie props');
-      console.log(this.props.data);
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.data;
-        console.log(axios.defaults.headers.common);
-        this.setState({toGoinMain: true})
-    } 
-  }*/
-
   signIn = () => {
-    const { phoneNumber } = this.state;
-    this.setState({ message: 'Sending code ...' });
+    this.setState({ message: 'Loading...' });
+    
+    const {username, password} = this.state;
+    const authSend = JSON.stringify({'user_name': username, 'password': password});
+    console.log(authSend);
+    this.props.postauth(authSend); 
 
-    firebase.auth().signInWithPhoneNumber(phoneNumber)
-      .then(confirmResult => this.setState({ confirmResult, message: 'Код отправлен' }))
-      .catch(error => this.setState({ message: `Sign In With Phone Number Error: ${error.message}` }));
-  };
-
-  confirmCode = () => {
-    const { codeInput, confirmResult, phoneNumber } = this.state;
-
-    let sendobj = JSON.stringify({phoneNumber: phoneNumber, codeInput: codeInput});
-
-    if (confirmResult && codeInput.length) {
-      confirmResult.confirm(codeInput)
-        .then((user) => {
-          this.setState({ message: 'Код принят', user });          t     
-        })
-        .catch(error => this.setState({ message: `Code Confirm Error: ${error.message}` }));
-    }
+    //todo API login query
   };
 
   signOut = () => {
-    firebase.auth().signOut();
-  }
-  
-  renderPhoneNumberInput() {
-   const { phoneNumber } = this.state;
-      
-    return (
-      <View style={{ padding: 25 }}>
-        <Text>Введите номер телефона</Text>
-        <TextInput
-          autoFocus
-          style={{ height: 40, marginTop: 15, marginBottom: 15 }}
-          onChangeText={value => this.setState({ phoneNumber: value })}
-          placeholder={'номер телефона '}
-          value={phoneNumber}
-        />
-        <Button title="Войти" onPress={this.signIn} /*onPress={this.onPressSendPhoneNumber.bind(this)}*/ />
-      </View>
-    );
+    this.setState({ user: null });
   }
 
   goToMain() {
-    Actions.cameratab();
-  }
-
-  goToAuth() {
-    Actions.auth()
+    Actions.banktab();
   }
   
   sendToken(user) {
-    const {phoneNumber, uid} = user;
-    const authSend = JSON.stringify({'user_phone': phoneNumber, 'user_token': uid});
+    /*const {username, password} = this.state;
+    const authSend = JSON.stringify({'user_name': username, 'password': password});
     console.log(authSend);
-    this.props.postauth(authSend);    
-  }
-
-  renderVerificationCodeInput() {
-    const { codeInput } = this.state;
-  
-    return (
-      <View style={{ marginTop: 25, padding: 25 }}>
-        <Text>Введите код:</Text>
-        <TextInput
-          autoFocus
-          style={{ height: 40, marginTop: 15, marginBottom: 15 }}
-          onChangeText={value => this.setState({ codeInput: value })}
-          placeholder={'Код ... '}
-          value={codeInput}
-        />
-        <Button title="Послать" color="#841584" onPress={this.confirmCode.bind(this)} />
-      </View>
-    );
+    this.props.postauth(authSend); */
   }
 
   render() {
-    const { user, confirmResult, toGoinMain} = this.state;
+    const { user, confirmResult, toGoinMain, username, password} = this.state;
     return (
       <View style={{ flex: 1 }}>
-        
-        {!user && !confirmResult && this.renderPhoneNumberInput()}
-
-        {!user && confirmResult && this.renderVerificationCodeInput()}
-        
-        {user && (
+        {!user && (
           <View>
-            <View style={{paddingTop:50}}></View>
-            <Button title="Sign Out" color="red" onPress={this.signOut} />
-            <View style={{paddingTop:50}}></View>
-            <Button title="Войти" onPress={this.goToMain} />
+            <View style={{ padding: 25 }}>
+              <Text>Введите логин</Text>
+              <TextInput
+                autoFocus
+                style={{ height: 40, marginTop: 15, marginBottom: 15 }}
+                onChangeText={value => this.setState({ username: value })}
+                placeholder={'номер телефона '}
+                value={username}
+              />
+              <Text>Введите пароль</Text>
+              <TextInput
+                style={{ height: 40, marginTop: 15, marginBottom: 15 }}
+                onChangeText={value => this.setState({ password: value })}
+                placeholder={'пароль '}
+                value={password}
+              />
+              <Button title="Войти" onPress={this.signIn} />
+            </View>
           </View>
         )}
 
