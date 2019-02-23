@@ -39,6 +39,15 @@ class Work extends Component {
 		this.whatArg = this.whatArg.bind(this);		
 	}
 
+	renderArray(arr) {
+		console.log('arr');
+		console.log(arr);
+		return arr.map((item,i) => {
+			const key = i;
+			return RenderObject(key, item);
+		});
+    }
+
 	whatArg(value, arr, arrType) {
 		//get condition/action object
 		if(arr.length == 0) {
@@ -130,13 +139,13 @@ class Work extends Component {
 				<View style={styles.container}>
 					<View style={{flex: 1, textAlign: 'center'}}>
 						{
-							RenderObject(arrCondition)
+							this.renderArray(arrCondition)
 						}
 					</View>
 
 					<View style={{flex: 1, textAlign: 'center'}}>
 						{
-							RenderObject(arrAction)
+							this.renderArray(arrAction)
 						}
 					</View>
 				</View>	

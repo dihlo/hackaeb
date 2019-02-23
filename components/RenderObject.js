@@ -1,7 +1,33 @@
+import React, { Component } from 'react';
+import { Text, View, ScrollView, Dimensions, Image, StyleSheet, Picker } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { Pagination, WhiteSpace, WingBlank, Steps, Button, DatePicker, List} from 'antd-mobile-rn';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {schedules} from '../actions';
+import Icon from 'react-native-vector-icons/AntDesign';
+import Spend from './Spend.js';
+import Balance from './Balance.js';
+import Sum from './Sum.js';
+import Category from './Category.js';
+import Tran from './Tran.js';
+import Block from './Block.js';
+import { Item } from 'antd-mobile/lib/tab-bar';
+
 export const RenderObject = (key, item) => {
 		console.log('renderObject');
         console.log(item);
-        
+
+        const condition = {
+                serial: 1,
+                date: "23-02-2019",
+                type: "balance",
+                condition: "lt",
+                amount: 100,
+                blockSorting: {0: 'balance', 1: 'lt',  2: 'amount'}
+            }
+
+
         const renderSpend = (key, item) => {
             return ( <Spend key={ key } PickerDate={item.period} /> );
         }
@@ -130,13 +156,6 @@ export const RenderObject = (key, item) => {
 		);
 	}
 
-	renderArray(arr) {
-		console.log('arr');
-		console.log(arr);
-		return arr.map((item,i) => {
-			const key = i;
-			return renderObject(key, item);
-		});
-    }
+
     
     
