@@ -9,7 +9,7 @@ export const postauth = (data) => {
 		});
 		axios({
 		  method:'post',
-		  url:'http://api.chukuruk.ru/api/v1/login',
+		  url:'http://diybankapi.s-vfu.ru/api/v1/login',
 		  data: data
 		})
 		  .then(function(response) {
@@ -19,7 +19,7 @@ export const postauth = (data) => {
 					responseData: response.data.token,
 					});
 					axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
-					Actions.cameratab();
+					Actions.prodtab();
 		  })
 		  .catch(function (error) {
 			console.log(error)  

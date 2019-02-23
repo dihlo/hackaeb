@@ -21,7 +21,8 @@ const TabIcon = ({selected, iconname}) => {
 const Routes = () => (
    <Router navigationBarStyle={{ backgroundColor: '#315dfa' }}>
 	   <Scene key="root">
-	      <Scene hideNavBar = "true">
+			<Scene initial={true} key = "Auth" component={Auth} title="Авторизация" />
+	      	<Scene hideNavBar = "true">
 			   <Stack key = "tabbar" 
 				   tabs={true} 
 				   activeBackgroundColor="#274bc6" 
@@ -42,7 +43,7 @@ const Routes = () => (
 		        </Scene>
 	      	 	<Scene key = "prodtab" title="Продукты" titleStyle={{ color: 'white' }} iconname="box-open" icon={TabIcon}>
 			         <Scene key = "prod" component = {Prod} />
-					 <Scene initial={true} key = "work" component = {Work} title="DIY платежи"/>
+					     <Scene key = "work" component = {Work} title="DIY платежи"/>
 		        </Scene>
 	      	 	<Scene key = "paytab" title="Оплатить"  titleStyle={{ color: 'white' }} iconname="ruble-sign" icon={TabIcon}>
 			         <Scene key = "pay" component = {News} />
