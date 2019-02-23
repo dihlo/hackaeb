@@ -19,41 +19,21 @@ class Work extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			spend: false,
-			balance: false,
-			sum: false,
-			category: false,
-			bigger: false,
-			smaller: false,
-			and: false,
-			or: false,
-			tran: false,
-			block: false,
-			andDo: false,
-			orDo: false,
 			arrCondition: [],
 			arrAction: []
 		}
 
-		this.ArrCondition = this.ArrCondition.bind(this);
+		this.AddInArray = this.AddInArray.bind(this);
 		this.whatArg = this.whatArg.bind(this);		
 	}
-
-	renderArray(arr) {
-		console.log('arr');
-		console.log(arr);
-		return arr.map((item,i) => {
-			const key = i;
-			return RenderObject(key, item);
-		});
-    }
 
 	whatArg(value, arr, arrType) {
 		//get condition/action object
 		if(arr.length == 0) {
-			//add new condition
+			//add new condition/action object
 			myObject = {};
-			myObject.id = 1;
+			myObject.serial = 1;
+			myObject.blockSorting = [];
 			console.log('length=000');
 			console.log(myObject);
 
@@ -80,27 +60,44 @@ class Work extends Component {
 			myObject.condition = 'gt';
 		} else if( value == "smaller") {
 			myObject.condition = 'lt';
+		} else if (value == "bank_account") {
+			myObject.type = 'bank_account';
+			myObject.bank_account = 'Зарплатная (123123123)';
 		} else if( value == "and") {
-			// arrCondition.push("and");
-			// this.setState({ and: true });	
-			// this.setState({ arrCondition: arrCondition});
+			//add new AND condition
+			myObject = {};
+			myObject.serial = arr.length + 1;
+			myObject.blockSorting = [];
+			myObject.logicType = 'and';
+			console.log('length='+arr.length);
+			console.log(myObject);
+			arr.push(myObject);
 		} else if( value == "or") {
-			// arrCondition.push("or");
-			// this.setState({ or: true });	
-			// this.setState({ arrCondition: arrCondition});
+			//add new OR condition
+			myObject = {};
+			myObject.blockSorting = [];
+			myObject.serial = arr.length + 1;
+			myObject.logicType = 'or';
+			console.log('length='+arr.length);
+			console.log(myObject);
+			arr.push(myObject);
 		}
+
+		//add in blockSorting
+		myObject.blockSorting.push({value});
+		
 
 		//update state
 		arr[arr.length - 1] = myObject;
 			if(arrType == 1 ){
-				this.setState((prevState) => { 
+				this.setState((prevState) => {
 					return {
 					...prevState,
 					arrCondition: arr
 					}
 				})
 			}else{
-				this.setState((prevState) => { 
+				this.setState((prevState) => {
 					return {
 					...prevState,
 					arrAction: arr
@@ -109,7 +106,7 @@ class Work extends Component {
 			}
 	}
 
-	ArrCondition(value, arrType) {
+	AddInArray(value, arrType) {
 		const {arrCondition, arrAction} = this.state;
 		if(arrType == 1){
 			arr = arrCondition.slice(0);
@@ -121,10 +118,21 @@ class Work extends Component {
 		console.log(this.state);
 		console.log('value');
 		console.log(value);
+		
+		//TODO check available to add
+
 		this.whatArg(value, arr, arrType);	
 	}
 	
-
+	renderArray(arr) {
+		console.log('arr');
+		console.log(arr);
+		return arr.map((item, i) => {
+			const key = i;
+			return RenderObject(key, item);
+		});
+	}
+	
 	render () {
 		const win = Dimensions.get('window');   
 		const { arrCondition, arrAction } = this.state;
@@ -155,32 +163,33 @@ class Work extends Component {
 					<Text style={{ flex: 1,  marginLeft: 10}}>Условия</Text>
 					<WhiteSpace/>
 					<View style={styles.blockcontainer}>
-						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('spend',1)} style={{ marginLeft: 10 }}>Потратил</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('balance',1) } style={{ marginLeft: 10 }}>Баланс</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('sum',1)} style={{ marginLeft: 10 }}>Сумма</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.AddInArray('bank_account',1)} style={{ marginLeft: 10 }}>Счет</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.AddInArray('spend',1)} style={{ marginLeft: 10 }}>Потратил</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.AddInArray('balance',1) } style={{ marginLeft: 10 }}>Баланс</Button>
 					</View>
 					<WhiteSpace/>
 					<View style={styles.blockcontainer}>
-						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('category',1) } style={{ marginLeft: 10 }}>Категория</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('bigger',1) } style={{ marginLeft: 10}}>Больше</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('smaller',1)} style={{ marginLeft: 10 }}>Меньше</Button>				
+						<Button type="ghost" inline size="large" onClick={ () => this.AddInArray('category',1) } style={{ marginLeft: 10 }}>Категория</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.AddInArray('bigger',1) } style={{ marginLeft: 10}}>Больше</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.AddInArray('smaller',1)} style={{ marginLeft: 10 }}>Меньше</Button>				
 					</View>
 					<WhiteSpace/>
 					<View style={{ flex: 1, flexDirection: 'row'}}>	
-						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('and',1) } style={{ marginLeft: 10 }}>И</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('or',1) } style={{ marginLeft: 10 }}>ИЛИ</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.AddInArray('sum',1)} style={{ marginLeft: 10 }}>Сумма</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.AddInArray('and',1) } style={{ marginLeft: 10 }}>И</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.AddInArray('or',1) } style={{ marginLeft: 10 }}>ИЛИ</Button>
 					</View>
 					<WhiteSpace/>
 					<Text style={{ flex: 1,  marginLeft: 10}}>Действия</Text>
 					<WhiteSpace/>
 					<View style={{flex: 1, flexDirection: 'row'}}>
-						<Button type="ghost" inline size="large" onClick={() => {this.setState({ tran: true });}} style={{ marginLeft: 10 }}>Перевод</Button>
-						<Button type="ghost" inline size="large" onClick={() => {this.setState({ block: true });}} style={{ marginLeft: 10 }}>Заблокировать</Button>
+						<Button type="ghost" inline size="large" onClick={() => {this.AddInArray('tran', 2)}} style={{ marginLeft: 10 }}>Перевод</Button>
+						<Button type="ghost" inline size="large" onClick={() => {this.AddInArray('block', 2);}} style={{ marginLeft: 10 }}>Заблокировать</Button>
 					</View> 
 					<WhiteSpace/>	
 					<View style={{ flex: 1, flexDirection: 'row'}}>	
-						<Button type="ghost" inline size="large" onClick={() => {this.setState({ andDo: true });}} style={{ marginLeft: 10 }}>И</Button>
-						<Button type="ghost" inline size="large" onClick={() => {this.setState({ orDo: true });}} style={{ marginLeft: 10 }}>ИЛИ</Button>
+						<Button type="ghost" inline size="large" onClick={() => {this.AddInArray('and', 2);}} style={{ marginLeft: 10 }}>И</Button>
+						<Button type="ghost" inline size="large" onClick={() => {this.AddInArray('or', 2);}} style={{ marginLeft: 10 }}>ИЛИ</Button>
 					</View> 
 				</View>				
 			</ScrollView>
