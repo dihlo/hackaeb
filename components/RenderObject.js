@@ -15,18 +15,19 @@ import Block from './Block.js';
 import { Item } from 'antd-mobile/lib/tab-bar';
 
 export const RenderObject = (key, item) => {
-		console.log('renderObject');
-        console.log(item);
+		//console.log('renderObject');
+        //console.log(item);
 
-        const condition = {
+        const cond = {
                 serial: 1,
                 date: "23-02-2019",
                 type: "balance",
                 condition: "lt",
                 amount: 100,
-                blockSorting: {0: 'balance', 1: 'lt',  2: 'amount'}
-            }
-
+                logicType: "and",
+                category: "alco",
+                blockSorting: {0: {value: "spend"}, 1: {value: "smaller"}, 2: {value: "balance"}},
+        }
 
         const renderSpend = (key, item) => {
             return ( <Spend key={ key } PickerDate={item.period} /> );
@@ -40,9 +41,8 @@ export const RenderObject = (key, item) => {
             return ( <Sum  key={ key } amount={item.amount} /> );
         }
     
-        const renderCategory = () => {
-            const { category } = this.state;
-            return ( <Category/> );
+        const renderCategory = (key, item) => {
+            return ( <Category key={ key } category={item.category}/> );
         }
     
         const renderBigger = (key, item) => {
@@ -61,9 +61,7 @@ export const RenderObject = (key, item) => {
              );
         }
     
-        const renderAnd = () => {
-            const { and } = this.state;
-               
+        const renderAnd = (key, item) => {             
              return (
                <View style={{ paddingTop: 5, paddingLeft: 25 }}>
                  <Text style={{fontSize: 20}}>И</Text>
@@ -71,8 +69,7 @@ export const RenderObject = (key, item) => {
              );
         }
     
-        const renderOr = () => {
-            const { or } = this.state;		   
+        const renderOr = (key, item) => {
              return (
                <View style={{ paddingTop: 5, paddingLeft: 25 }}>
                  <Text style={{fontSize: 20}}>ИЛИ</Text>
@@ -80,52 +77,31 @@ export const RenderObject = (key, item) => {
              );
         }
     
-        const conrenderTran = () => {
-            const { tran } = this.state;		   
-            return ( <Tran/> );
+        const renderTran = (key, item) => {  
+            return ( <Tran key={ key } amount={item.amount}/> );
         }
     
-        const renderBlock = () => {
-            const { block } = this.state;		   
-            return ( <Block/> );
+        const renderBlock = (key, item) => {
+            return ( <Block key={ key } amount={item.period}/> );
         }
     
-        const renderAndDo = () => {
-            const { andDo } = this.state;
-               
-             return (
-               <View style={{ paddingTop: 5, paddingLeft: 25 }}>
-                 <Text style={{fontSize: 20}}>И</Text>
-               </View>
-             );
-        }
 
-        const renderOrDo = () => {
-            const { orDo } = this.state;		   
-             return (
-               <View style={{ paddingTop: 5, paddingLeft: 25 }}>
-                 <Text style={{fontSize: 20}}>ИЛИ</Text>
-               </View>
-             );
-        }
-
-		const renderCondLeft = () => {
+		/*const renderCondLeft = () => {
 			switch(item.type) {
 				case 'spend':
 					return renderSpend(key, item);
 				case 'balance':
 					return renderBalance(key, item);
-				// case 'category':
-				// 	renderCategory(key, item);
-				// 	break;
-				// case 'and':
-				// 	return renderAnd(key, item);
-				// case 'or':
-				// 	return renderOr(key, item);
-				// case 'tran':
-				// 	return renderTran(key, item);
-				// case 'block':
-				// 	return renderBlock(key, item);
+				case 'category':
+				 	return renderCategory(key, item);				
+				case 'and':
+				    return renderAnd(key, item);
+				case 'or':
+				    return renderOr(key, item);
+				case 'tran':
+					return renderTran(key, item);
+				case 'block':
+				    return renderBlock(key, item);
 				// case 'andDo':
 				// 	return renderAndDo(key, item);
 				// case 'orDo':
@@ -146,12 +122,49 @@ export const RenderObject = (key, item) => {
 			if(item.amount > 0){
 				return renderSum(key, item);
 			}
-		};
+		};*/
+
+        const renderCondAll = () => {
+            console.log("in cond");
+            let arr = cond.blockSorting;
+            count = 0;
+            for (var key in arr) {
+              count++;
+            }
+            console.log(count);
+            for (var i = 0; i < count + 1; i++) {
+                console.log(arr[i])
+                /*switch(item.type) {
+                    case 'spend':
+                        return renderSpend(key, item);
+                    case 'balance':
+                        return renderBalance(key, item);
+                    case 'amount':
+                        return renderSum(key, item);                        
+                    // case 'category':
+                    //  renderCategory(key, item);
+                    case 'and':
+                        return renderAnd(key, item);
+                    case 'or':
+                        return renderOr(key, item);
+                    case 'bigger':
+                        return renderAnd(key, item);
+                    case 'smaller':
+                        return renderOr(key, item);                        
+                    // case 'tran':
+                    //  return renderTran(key, item);
+                    // case 'block':
+                    //  return renderBlock(key, item);
+                    default:
+                        <Error text={item} />;
+                        break;
+                }  */             
+             }
+        }
+
 		return (
 			<View>
-				{renderCondLeft()}
-				{renderCond()}
-				{renderCondRigth()}
+                {renderCondAll()}
 			</View>
 		);
 	}
