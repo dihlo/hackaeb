@@ -6,14 +6,14 @@ class Category extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			PickerDate: '',	
+			PickerCategory: this.props.PickerCategory,	
 		}
 
-		this.updatePickerDate = this.updatePickerDate.bind(this);
+		this.updatePickerCategory = this.updatePickerCategory.bind(this);
 	}
 
-	updatePickerDate (PickerDate) {
-		this.setState({ PickerDate: PickerDate });
+	updatePickerCategory (PickerCategory) {
+		this.setState({ PickerCategory: PickerCategory });
 	 }
 
 	render () {
@@ -21,7 +21,7 @@ class Category extends Component {
         return (
 			<View style={{ paddingLeft: 10}}>
 				<Text>в категории </Text>
-				<Picker selectedValue = {this.state.PickerDate} onValueChange = {this.updatePickerDate}>
+				<Picker selectedValue = {this.state.PickerCategory} onValueChange = {this.updatePickerCategory}>
 					<Picker.Item label = "Еда" value = "food" />
 					<Picker.Item label = "Бухло" value = "alco" />
 					<Picker.Item label = "Развлечения" value = "fun" />

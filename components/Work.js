@@ -62,7 +62,13 @@ class Work extends Component {
 			myObject.condition = 'lt';
 		} else if (value == "bank_account") {
 			myObject.type = 'bank_account';
-			myObject.bank_account = 'Зарплатная (123123123)';
+			myObject.bank_account = '6768764823';
+		} else if (value == "tran") {
+			myObject.type = 'bank_account';
+			myObject.bank_account = '6768764823';
+		} else if (value == "block") {
+			myObject.type = 'block';
+			myObject.period = 'month';						
 		} else if( value == "and") {
 			//add new AND condition
 			myObject = {};

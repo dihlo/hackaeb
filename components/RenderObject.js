@@ -12,21 +12,17 @@ import Sum from './Sum.js';
 import Category from './Category.js';
 import Tran from './Tran.js';
 import Block from './Block.js';
+import BankAccount from './BankAccount.js';
 import { Item } from 'antd-mobile/lib/tab-bar';
 
 export const RenderObject = (key, item) => {
 		//console.log('renderObject');
         //console.log(item);
 
-        const cond = {
-                serial: 1,
-                date: "23-02-2019",
-                type: "balance",
-                condition: "lt",
-                amount: 100,
-                logicType: "and",
-                category: "alco",
-                blockSorting: {0: {value: "spend"}, 1: {value: "smaller"}, 2: {value: "balance"}},
+        const cond = item;
+
+        const renderBankAccount = (key, item) => {
+            return ( <BankAccount key={ key } PickerAccount={item.bank_account}/> );
         }
 
         const renderSpend = (key, item) => {
@@ -42,12 +38,12 @@ export const RenderObject = (key, item) => {
         }
     
         const renderCategory = (key, item) => {
-            return ( <Category key={ key } category={item.category}/> );
+            return ( <Category key={ key } PickerCategory={item.category}/> );
         }
     
         const renderBigger = (key, item) => {
              return (
-               <View style={{ padding: 25 }}>
+               <View style={{ paddingTop: 5, paddingLeft: 25 }}>
                  <Icon style={{color: '#315dfa', height: 36, fontSize: 30}} name='right' size={20}/>
                </View>
              );
@@ -55,7 +51,7 @@ export const RenderObject = (key, item) => {
     
         const renderSmaller = (key, item) => {
              return (
-               <View style={{ padding: 25}}>
+               <View style={{ paddingTop: 5, paddingLeft: 25 }}>
                  <Icon style={{color: '#315dfa', height: 36, fontSize: 30}} name='left' size={20}/>
                </View>
              );
@@ -78,51 +74,13 @@ export const RenderObject = (key, item) => {
         }
     
         const renderTran = (key, item) => {  
-            return ( <Tran key={ key } amount={item.amount}/> );
+            return ( <Tran key={ key } PickerTran={item.bank_account}/> );
         }
     
         const renderBlock = (key, item) => {
-            return ( <Block key={ key } amount={item.period}/> );
+            return ( <Block key={ key } PickerBlock={item.period}/> );
         }
     
-
-		/*const renderCondLeft = () => {
-			switch(item.type) {
-				case 'spend':
-					return renderSpend(key, item);
-				case 'balance':
-					return renderBalance(key, item);
-				case 'category':
-				 	return renderCategory(key, item);				
-				case 'and':
-				    return renderAnd(key, item);
-				case 'or':
-				    return renderOr(key, item);
-				case 'tran':
-					return renderTran(key, item);
-				case 'block':
-				    return renderBlock(key, item);
-				// case 'andDo':
-				// 	return renderAndDo(key, item);
-				// case 'orDo':
-				// 	return renderOrDo(key, item);
-				default:
-					<Error text={item} />;
-					break;
-			}};
-		const renderCond = () => {
-			switch(item.condition){
-				case 'gt':
-					return renderBigger(key, item);
-				case 'lt':
-					return renderSmaller(key, item);
-			}
-		};
-		const renderCondRigth = () => {
-			if(item.amount > 0){
-				return renderSum(key, item);
-			}
-		};*/
 
         const renderCondAll = () => {
             console.log("in cond");
@@ -132,34 +90,38 @@ export const RenderObject = (key, item) => {
               count++;
             }
             console.log(count);
-            for (var i = 0; i < count + 1; i++) {
-                console.log(arr[i])
-                /*switch(item.type) {
+            console.log(arr);
+            return arr.map((block, i) => {
+                const key = i;
+                console.log(block.value) 
+                switch(block.value) {
+                    case 'bank_account':
+                        return renderBankAccount(key, item);
                     case 'spend':
                         return renderSpend(key, item);
                     case 'balance':
                         return renderBalance(key, item);
-                    case 'amount':
+                    case 'sum':
                         return renderSum(key, item);                        
-                    // case 'category':
-                    //  renderCategory(key, item);
+                    case 'category':
+                        return renderCategory(key, item);
                     case 'and':
                         return renderAnd(key, item);
                     case 'or':
                         return renderOr(key, item);
                     case 'bigger':
-                        return renderAnd(key, item);
+                        return renderBigger(key, item);
                     case 'smaller':
-                        return renderOr(key, item);                        
-                    // case 'tran':
-                    //  return renderTran(key, item);
-                    // case 'block':
-                    //  return renderBlock(key, item);
+                        return renderSmaller(key, item);                        
+                    case 'tran':
+                        return renderTran(key, item);
+                    case 'block':
+                        return renderBlock(key, item);
                     default:
                         <Error text={item} />;
                         break;
-                }  */             
-             }
+                }                           
+            });
         }
 
 		return (

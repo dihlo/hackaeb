@@ -6,14 +6,14 @@ class Block extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			PickerDate: '',	
+			PickerBlock: this.props.PickerBlock,	
 		}
 
-		this.updatePickerDate = this.updatePickerDate.bind(this);
+		this.updatePickerBlock = this.updatePickerBlock.bind(this);
 	}
 
-	updatePickerDate (PickerDate) {
-		this.setState({ PickerDate: PickerDate });
+	updatePickerBlock (PickerBlock) {
+		this.setState({ PickerBlock: PickerBlock });
 	 }
 
 	render () {
@@ -21,10 +21,10 @@ class Block extends Component {
         return (
 			<View style={{ paddingLeft: 10}}>
 				<Text>заблокировать на </Text>
-				<Picker selectedValue = {this.state.PickerDate} onValueChange = {this.updatePickerDate}>
-					<Picker.Item label = "день" value = "today" />
+				<Picker selectedValue = {this.state.PickerBlock} onValueChange = {this.updatePickerBlock}>
+					<Picker.Item label = "день" value = "day" />
 					<Picker.Item label = "неделю" value = "week" />
-					<Picker.Item label = "месяц" value = "mounth" />
+					<Picker.Item label = "месяц" value = "month" />
 					<Picker.Item label = "год" value = "year" />
 				</Picker>
 			</View>
