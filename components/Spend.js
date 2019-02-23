@@ -9,7 +9,7 @@ class Spend extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			PickerDate: 'today',	
+			PickerDate: this.props.PickerDate,
 		}
 
 		this.updatePickerDate = this.updatePickerDate.bind(this);
@@ -20,14 +20,13 @@ class Spend extends Component {
 	}
 
 	render () {
-
         return (
 			<View style={{ paddingLeft: 10}}>
 				<Text>потратил за </Text>
 				<Picker selectedValue = {this.state.PickerDate} onValueChange = {this.updatePickerDate}>
-					<Picker.Item label = "день" value = "today" />
+					<Picker.Item label = "день" value = "day" />
 					<Picker.Item label = "неделю" value = "week" />
-					<Picker.Item label = "месяц" value = "mounth" />
+					<Picker.Item label = "месяц" value = "month" />
 					<Picker.Item label = "год" value = "year" />
 				</Picker>
 			</View>

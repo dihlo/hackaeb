@@ -12,6 +12,7 @@ import Sum from './Sum.js';
 import Category from './Category.js';
 import Tran from './Tran.js';
 import Block from './Block.js';
+import { Item } from 'antd-mobile/lib/tab-bar';
 
 class Work extends Component {
 
@@ -30,26 +31,24 @@ class Work extends Component {
 			block: false,
 			andDo: false,
 			orDo: false,
-			arr: []
+			arrCondition: [],
+			arrAction: []
 		}
 
-		this.Arr = this.Arr.bind(this);
+		this.ArrCondition = this.ArrCondition.bind(this);
 		this.whatArg = this.whatArg.bind(this);		
 	}
 
-	renderSpend() {
-		const { spend } = this.state;
-		return ( <Spend/> );
+	renderSpend(key, item) {
+		return ( <Spend key={ key } PickerDate={item.period} /> );
 	}
 
-	renderBalance() {
-		const { balance } = this.state;
-		return ( <Balance/> );
+	renderBalance(key, item) {
+		return ( <Balance key={ key } date={item.date} /> );
 	}
 
-	renderSum() {
-		const { sum } = this.state;
-		return ( <Sum/> );
+	renderSum(key, item) {
+		return ( <Sum  key={ key } amount={item.amount} /> );
 	}
 
 	renderCategory() {
@@ -57,9 +56,7 @@ class Work extends Component {
 		return ( <Category/> );
 	}
 
-	renderBigger() {
-		const { bigger } = this.state;
-		   
+	renderBigger(key, item) {
 		 return (
 		   <View style={{ padding: 25 }}>
 			 <Icon style={{color: '#315dfa', height: 36, fontSize: 30}} name='right' size={20}/>
@@ -67,9 +64,7 @@ class Work extends Component {
 		 );
 	}
 
-	renderSmaller() {
-		const { smaller } = this.state;
-		   
+	renderSmaller(key, item) {
 		 return (
 		   <View style={{ padding: 25}}>
 			 <Icon style={{color: '#315dfa', height: 36, fontSize: 30}} name='left' size={20}/>
@@ -124,59 +119,144 @@ class Work extends Component {
 		 );
 	}	
 
-	whatArg(value) {
-		const {arr} = this.state;
+	whatArg(value, arr, arrType) {
+		//get condition/action object
+		if(arr.length == 0) {
+			//add new condition
+			myObject = {};
+			myObject.id = 1;
+			console.log('length=000');
+			console.log(myObject);
+
+			arr.push(myObject);
+		} else {
+			//get last condition
+			myObject = arr[arr.length - 1];
+			console.log('length='+arr.length);
+			console.log(myObject);
+		}
+
+		//modify condition/action object
 		if (value == "spend") {
-			arr.push("spend");
-			this.setState({ spend: true });	
-			this.setState({ arr: arr});
+			myObject.type = 'spend';
+			myObject.period = 'month';
+		} else if (value == "balance") {
+			myObject.type = 'balance';
+			myObject.date = '23-02-2019';
+		} else if( value == "sum") {
+			myObject.amount = '100';
+		} else if( value == "category") {
+			myObject.category = 'alco';
+		} else if( value == "bigger") {
+			myObject.condition = 'gt';
+		} else if( value == "smaller") {
+			myObject.condition = 'lt';
+		} else if( value == "and") {
+			// arrCondition.push("and");
+			// this.setState({ and: true });	
+			// this.setState({ arrCondition: arrCondition});
+		} else if( value == "or") {
+			// arrCondition.push("or");
+			// this.setState({ or: true });	
+			// this.setState({ arrCondition: arrCondition});
 		}
-		else if (value == "balance") {
-			arr.push("balance");
-			this.setState({ balance: true });	
-			this.setState({ arr: arr});
-		}
-		else if( value == "sum") {
-			arr.push("sum");
-			this.setState({ sum: true });	
-			this.setState({ arr: arr});
-		}
-		else if( value == "category") {
-			arr.push("category");
-			this.setState({ category: true });	
-			this.setState({ arr: arr});
-		}
-		else if( value == "bigger") {
-			arr.push("bigger");
-			this.setState({ bigger: true });	
-			this.setState({ arr: arr});
-		}
-		else if( value == "smaller") {
-			arr.push("smaller");
-			this.setState({ smaller: true });	
-			this.setState({ arr: arr});
-		}
-		else if( value == "and") {
-			arr.push("and");
-			this.setState({ and: true });	
-			this.setState({ arr: arr});
-		}
-		else if( value == "or") {
-			arr.push("or");
-			this.setState({ or: true });	
-			this.setState({ arr: arr});
-		}														
+
+		//update state
+		arr[arr.length - 1] = myObject;
+			if(arrType == 1 ){
+				this.setState((prevState) => { 
+					return {
+					...prevState,
+					arrCondition: arr
+					}
+				})
+			}else{
+				this.setState((prevState) => { 
+					return {
+					...prevState,
+					arrAction: arr
+					}
+				})
+			}
 	}
 
-	Arr(value) {
+	ArrCondition(value, arrType) {
+		const {arrCondition, arrAction} = this.state;
+		if(arrType == 1){
+			arr = arrCondition.slice(0);
+		}else{
+			arr = arrAction.slice(0);
+		}
+
+		console.log('this.state');
 		console.log(this.state);
+		console.log('value');
 		console.log(value);
-		this.whatArg(value);	
+		this.whatArg(value, arr, arrType);	
+	}
+	renderObject(key, item) {
+		console.log('renderObject');
+		console.log(item);
+
+		const renderCondLeft = () => {
+			switch(item.type) {
+				case 'spend':
+					return this.renderSpend(key, item);
+				case 'balance':
+					return this.renderBalance(key, item);
+				// case 'category':
+				// 	this.renderCategory(key, item);
+				// 	break;
+				// case 'and':
+				// 	return this.renderAnd(key, item);
+				// case 'or':
+				// 	return this.renderOr(key, item);
+				// case 'tran':
+				// 	return this.renderTran(key, item);
+				// case 'block':
+				// 	return this.renderBlock(key, item);
+				// case 'andDo':
+				// 	return this.renderAndDo(key, item);
+				// case 'orDo':
+				// 	return this.renderOrDo(key, item);
+				default:
+					<Error text={item} />;
+					break;
+			}};
+		const renderCond = () => {
+			switch(item.condition){
+				case 'gt':
+					return this.renderBigger(key, item);
+				case 'lt':
+					return this.renderSmaller(key, item);
+			}
+		};
+		const renderCondRigth = () => {
+			if(item.amount > 0){
+				return this.renderSum(key, item);
+			}
+		};
+		return (
+			<View>
+				{renderCondLeft()}
+				{renderCond()}
+				{renderCondRigth()}
+			</View>
+		);
+	}
+
+	renderArray(arr) {
+		console.log('arr');
+		console.log(arr);
+		return arr.map((item,i) => {
+			const key = i;
+			return this.renderObject(key, item);
+		});
 	}
 
 	render () {
 		const win = Dimensions.get('window');   
-		const { spend, balance, sum, category, bigger, smaller, and, or, tran, block, andDo, orDo, arr} = this.state;
+		const { arrCondition, arrAction } = this.state;
 
 		return (
 			<ScrollView style={{backgroundColor: 'white', flex: 1}}>
@@ -187,21 +267,15 @@ class Work extends Component {
 				<WhiteSpace/>
 				<View style={styles.container}>
 					<View style={{flex: 1, textAlign: 'center'}}>
-						{spend && this.renderSpend()}
-						{balance && this.renderBalance()}
-						{sum && this.renderSum()}
-						{category && this.renderCategory()}
-						{bigger && this.renderBigger()}
-						{smaller && this.renderSmaller()}
-						{and && this.renderAnd()}
-						{or && this.renderOr()}
+						{
+							this.renderArray(arrCondition)
+						}
 					</View>
 
 					<View style={{flex: 1, textAlign: 'center'}}>
-						{tran && this.renderTran()}
-						{block && this.renderBlock()}
-						{andDo && this.renderAndDo()}
-						{orDo && this.renderOrDo()}
+						{
+							this.renderArray(arrAction)
+						}
 					</View>
 				</View>	
 					<WhiteSpace/>
@@ -210,20 +284,20 @@ class Work extends Component {
 					<Text style={{ flex: 1,  marginLeft: 10}}>Условия</Text>
 					<WhiteSpace/>
 					<View style={styles.blockcontainer}>
-						<Button type="ghost" inline size="large" onClick={ () => this.Arr('spend')} style={{ marginLeft: 10 }}>Потратил</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.Arr('balance') } style={{ marginLeft: 10 }}>Баланс</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.Arr('sum')} style={{ marginLeft: 10 }}>Сумма</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('spend',1)} style={{ marginLeft: 10 }}>Потратил</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('balance',1) } style={{ marginLeft: 10 }}>Баланс</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('sum',1)} style={{ marginLeft: 10 }}>Сумма</Button>
 					</View>
 					<WhiteSpace/>
 					<View style={styles.blockcontainer}>
-						<Button type="ghost" inline size="large" onClick={ () => this.Arr('category') } style={{ marginLeft: 10 }}>Категория</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.Arr('bigger') } style={{ marginLeft: 10}}>Больше</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.Arr('smaller')} style={{ marginLeft: 10 }}>Меньше</Button>				
+						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('category',1) } style={{ marginLeft: 10 }}>Категория</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('bigger',1) } style={{ marginLeft: 10}}>Больше</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('smaller',1)} style={{ marginLeft: 10 }}>Меньше</Button>				
 					</View>
 					<WhiteSpace/>
 					<View style={{ flex: 1, flexDirection: 'row'}}>	
-						<Button type="ghost" inline size="large" onClick={ () => this.Arr('and') } style={{ marginLeft: 10 }}>И</Button>
-						<Button type="ghost" inline size="large" onClick={ () => this.Arr('or') } style={{ marginLeft: 10 }}>ИЛИ</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('and',1) } style={{ marginLeft: 10 }}>И</Button>
+						<Button type="ghost" inline size="large" onClick={ () => this.ArrCondition('or',1) } style={{ marginLeft: 10 }}>ИЛИ</Button>
 					</View>
 					<WhiteSpace/>
 					<Text style={{ flex: 1,  marginLeft: 10}}>Действия</Text>
