@@ -13,3 +13,4 @@ export * from './putnews';
 export * from './deletenews';
 export * from './camera';
 export * from './postauth';
+export * from './postcases';
