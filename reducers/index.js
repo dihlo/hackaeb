@@ -19,6 +19,7 @@ import DeleteNews from './deletenews';
 import Camera from './camera';
 import PostAuth from './postauth';
 import PostCases from './postcases';
+import GetCases from './getcases';
 
 const allReducers = combineReducers ({
 	cars: CarsReducers,
@@ -41,6 +42,7 @@ const allReducers = combineReducers ({
 	camera: Camera,	
 	postauth: PostAuth,	
 	postcases: PostCases,
+	getcases: GetCases,
 });
 
 export default allReducers;

@@ -34,7 +34,7 @@ export const RenderObject = (key, item) => {
         }
     
         const renderSum = (key, item) => {
-            return ( <Sum  key={ key } amount={item.amount} /> );
+            return ( <Sum  key={ key } amount={item.amount.toString()} /> );
         }
     
         const renderCategory = (key, item) => {
