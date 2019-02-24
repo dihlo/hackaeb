@@ -19,8 +19,8 @@ class Tran extends Component {
 	render () {
 
         return (
-			<View style={{ paddingLeft: 10}}>
-				<Text>перевести на </Text>
+			<View>
+				<Text style={{color: 'black', textAlign: 'center'}}>перевести на </Text>
 				<Picker selectedValue = {this.state.PickerDate} onValueChange = {this.updatePickerDate}>
 					<Picker.Item label = "На счет 1232142141.." value = "1" />
 					<Picker.Item label = "На счет 6546545141.." value = "2" />

@@ -19,8 +19,8 @@ class Category extends Component {
 	render () {
 
         return (
-			<View style={{ paddingLeft: 10}}>
-				<Text>в категории </Text>
+			<View style={{}}>
+				<Text style={{color: 'black', textAlign: 'center'}}>в категории </Text>
 				<Picker selectedValue = {this.state.PickerCategory} onValueChange = {this.updatePickerCategory}>
 					<Picker.Item label = "Еда" value = "food" />
 					<Picker.Item label = "Бухло" value = "alco" />

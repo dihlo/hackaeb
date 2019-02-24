@@ -12,10 +12,10 @@ export default class Sum extends Component {
 
   render(){
     return (
-    <View style={{paddingLeft: 10}}>
-        <Text>сумма</Text>
+    <View>
+        <Text style={{color: 'black', textAlign: 'center'}}>сумма:</Text>
         <TextInput
-            style={{height: 40, borderBottomColor: 'gray', borderBottomWidth: 1}}
+            style={{height: 40}}
             onChangeText={(number) => this.setState({number})}
             value={this.state.number}
         />
