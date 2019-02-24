@@ -90,8 +90,7 @@ class Work extends Component {
 		}
 
 		//add in blockSorting
-		myObject.blockSorting.push({value});
-		
+		myObject.blockSorting.push(value);
 
 		//update state
 		arr[arr.length - 1] = myObject;
