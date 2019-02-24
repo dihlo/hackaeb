@@ -93,8 +93,8 @@ export const RenderObject = (key, item) => {
             console.log(arr);
             return arr.map((block, i) => {
                 const key = i;
-                console.log(block.value) 
-                switch(block.value) {
+                console.log(block) 
+                switch(block) {
                     case 'bank_account':
                         return renderBankAccount(key, item);
                     case 'spend':
