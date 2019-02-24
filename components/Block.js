@@ -19,8 +19,8 @@ class Block extends Component {
 	render () {
 
         return (
-			<View style={{ paddingLeft: 10}}>
-				<Text>заблокировать на </Text>
+			<View>
+				<Text style={{color: 'black', textAlign: 'center'}}>заблокировать на </Text>
 				<Picker selectedValue = {this.state.PickerBlock} onValueChange = {this.updatePickerBlock}>
 					<Picker.Item label = "день" value = "day" />
 					<Picker.Item label = "неделю" value = "week" />

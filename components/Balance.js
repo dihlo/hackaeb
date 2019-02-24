@@ -12,10 +12,11 @@ export default class Balance extends Component {
 
   render(){
     return (
-    <View style={{paddingLeft: 10}}>
-      <Text>баланс на:</Text>    
+    <View style={{  flex: 1, justifyContent: 'center', alignItems:'center'}}>
+      <Text style={{color: 'black'}}>баланс на:</Text>    
       <DatePicker
-        style={{width: 150}}
+        style={{flex: 1}}
+        customStyles={{flex: 1, dateInput:{borderWidth: 0}}}
         date={this.state.date}
         mode="date"
         placeholder="select date"
@@ -30,7 +31,7 @@ export default class Balance extends Component {
                 width: 0,
             },
             dateInput: {
-                width: 20,
+               borderWidth: 0
             }
         }}
         onDateChange={(date) => {this.setState({date: date})}}

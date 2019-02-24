@@ -19,9 +19,9 @@ class BankAccount extends Component {
 	render () {
 
         return (
-			<View style={{ paddingLeft: 10}}>
-				<Text>в категории </Text>
-				<Picker selectedValue = {this.state.PickerAccount} onValueChange = {this.updatePickerAccount}>
+			<View style={{}}>
+				<Text style={{color: 'black', textAlign: 'center'}}>cчет: </Text>
+				<Picker style={{color: 'black', textAlign: 'center'}} selectedValue = {this.state.PickerAccount} onValueChange = {this.updatePickerAccount}>
 					<Picker.Item label = "Счет жены (523523533123)" value = "523523533123" />
 					<Picker.Item label = "Зарплатная (6768764823)" value = "6768764823" />
 					<Picker.Item label = "Вклад (785675673123)" value = "785675673123" />

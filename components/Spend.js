@@ -21,8 +21,8 @@ class Spend extends Component {
 
 	render () {
         return (
-			<View style={{ paddingLeft: 10}}>
-				<Text>потратил за </Text>
+			<View style={{}}>
+				<Text style={{color: 'black', textAlign: 'center'}}>потратил за: </Text>
 				<Picker selectedValue = {this.state.PickerDate} onValueChange = {this.updatePickerDate}>
 					<Picker.Item label = "день" value = "day" />
 					<Picker.Item label = "неделю" value = "week" />

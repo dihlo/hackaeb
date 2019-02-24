@@ -43,32 +43,32 @@ export const RenderObject = (key, item) => {
     
         const renderBigger = (key, item) => {
              return (
-               <View style={{ paddingTop: 5, paddingLeft: 25 }}>
-                 <Icon style={{color: '#315dfa', height: 36, fontSize: 30}} name='right' size={20}/>
+               <View>
+                 <Icon style={{color: '#315dfa', height: 20, fontSize: 20, textAlign: 'center'}} name='right' size={20}/>
                </View>
              );
         }
     
         const renderSmaller = (key, item) => {
              return (
-               <View style={{ paddingTop: 5, paddingLeft: 25 }}>
-                 <Icon style={{color: '#315dfa', height: 36, fontSize: 30}} name='left' size={20}/>
+               <View>
+                 <Icon style={{color: '#315dfa', height: 20, fontSize: 20, textAlign: 'center'}} name='left' size={20}/>
                </View>
              );
         }
     
         const renderAnd = (key, item) => {             
              return (
-               <View style={{ paddingTop: 5, paddingLeft: 25 }}>
-                 <Text style={{fontSize: 20}}>И</Text>
+               <View style={{ marginLeft: 10, marginTop: 5, borderRadius: 10, borderWidth: 1, borderColor: '#108ee9'}}>
+                 <Text style={{fontSize: 20, textAlign: 'center', flex: 1, color: 'black'}}>И</Text>
                </View>
              );
         }
     
         const renderOr = (key, item) => {
              return (
-               <View style={{ paddingTop: 5, paddingLeft: 25 }}>
-                 <Text style={{fontSize: 20}}>ИЛИ</Text>
+               <View style={{ marginLeft: 10, marginTop: 5, borderRadius: 10, borderWidth: 1, borderColor: '#108ee9'}}>
+                 <Text style={{fontSize: 20, textAlign: 'center', flex: 1, color: 'black'}}>ИЛИ</Text>
                </View>
              );
         }
@@ -79,6 +79,20 @@ export const RenderObject = (key, item) => {
     
         const renderBlock = (key, item) => {
             return ( <Block key={ key } PickerBlock={item.period}/> );
+        }
+
+        const renderLogBlock = (key, item) => {
+            if(cond.blockSorting[0] == "and" && cond.blockSorting[0] == "or") {
+                return (<View></View>);}
+            else {
+                return (
+                    <View style={{ marginLeft: 10, marginTop: 5, borderRadius: 10, borderWidth: 1, borderColor: '#108ee9'}}>
+                        {renderCondAll()}
+                    </View>
+                );
+            }
+
+
         }
     
 
@@ -105,10 +119,10 @@ export const RenderObject = (key, item) => {
                         return renderSum(key, item);                        
                     case 'category':
                         return renderCategory(key, item);
-                    case 'and':
+                    /*case 'and':
                         return renderAnd(key, item);
                     case 'or':
-                        return renderOr(key, item);
+                        return renderOr(key, item);*/
                     case 'bigger':
                         return renderBigger(key, item);
                     case 'smaller':
@@ -124,10 +138,41 @@ export const RenderObject = (key, item) => {
             });
         }
 
+        const renderCondAndOr = () => {
+            console.log("in cond");
+            let arr = cond.blockSorting;
+            count = 0;
+            for (var key in arr) {
+              count++;
+            }
+            console.log(count);
+            console.log(arr);
+            return arr.map((block, i) => {
+                const key = i;
+                console.log(block) 
+                switch(block) {
+                    case 'and':
+                        return renderAnd(key, item);
+                    case 'or':
+                        return renderOr(key, item);
+                    default:
+                        <Error text={item} />;
+                        break;
+                }                           
+            });
+        }
+
+
 		return (
-			<View>
-                {renderCondAll()}
-			</View>
+            <View>
+                <View>
+                    {renderCondAndOr()}
+                </View> 
+    			<View style={{ marginLeft: 10, marginTop: 5, borderRadius: 10, borderWidth: 1, borderColor: '#108ee9'}}>
+                    <View style={{height: 10}}></View>
+                    {renderCondAll()}
+    			</View>
+            </View>
 		);
 	}
 
