@@ -19,6 +19,7 @@ export const postauth = (data) => {
 					responseData: response.data.token,
 				});
 				axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
+				console.log('Bearer ' + response.data.token);
 				Actions.prodtab();
 		})
 		.catch(function (error) {
@@ -27,7 +28,6 @@ export const postauth = (data) => {
 				type: "POST_AUTH_ERROR",
 				responseData: "error_meals",
 			});
-			Actions.prodtab();
 		});
 	};
 };

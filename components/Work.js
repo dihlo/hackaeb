@@ -47,7 +47,7 @@ class Work extends Component {
 			myObject.type = 'balance';
 			myObject.date = '23-02-2019';
 		} else if( value == "sum") {
-			myObject.amount = '100';
+			myObject.amount = 100;
 		} else if( value == "category") {
 			myObject.category = 'alco';
 		} else if( value == "bigger") {
@@ -127,11 +127,10 @@ class Work extends Component {
 		const {arrCondition, arrAction} = this.state;
 		
 		postJson = {
-			name: this.state.name,
-			conditions: arrCondition,
-			actions: arrAction
+			"Name": this.state.name,
+			"Conditions": JSON.parse(JSON.stringify(arrCondition)),
+			"Actions": JSON.parse(JSON.stringify(arrAction))
 		};
-
 		this.props.postcases(postJson); 
 	}
 
@@ -220,13 +219,10 @@ class Work extends Component {
 							value={this.state.name}
 						/>
 						<Button type="primary" inline size="large" onClick={ () => this.SaveArray()} style={{ marginLeft: 10 }}>Сохранить</Button>
-					</View>
-				</View>
-				<View>
-					<View style={{ flex: 1, flexDirection: 'row'}}>	
 						<Button type="warning" inline size="large" onClick={ () => this.ResetArray()} style={{ marginLeft: 10 }}>Сбросить</Button>
 					</View>
 				</View>
+				<WhiteSpace/><WhiteSpace/><WhiteSpace/>
 			</ScrollView>
 	)}
 }

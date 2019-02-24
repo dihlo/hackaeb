@@ -34,7 +34,7 @@ class PhoneAuthTest extends Component {
         message: '',
         codeInput: '',
         confirmResult: null,
-        username: 'user1',
+        username: 'login1',
         password: 'password1'
       });
     }
@@ -57,7 +57,7 @@ class PhoneAuthTest extends Component {
     this.setState({ message: 'Loading...' });
     
     const {username, password} = this.state;
-    const authSend = JSON.stringify({'user_name': username, 'password': password});
+    const authSend = JSON.stringify({'username': username, 'password': password});
     console.log(authSend);
     this.props.postauth(authSend); 
 
