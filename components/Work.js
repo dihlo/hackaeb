@@ -1,30 +1,24 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, Dimensions, Image, StyleSheet, Picker } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { Pagination, WhiteSpace, WingBlank, Steps, Button, DatePicker, List} from 'antd-mobile-rn';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {schedules} from '../actions';
-import Icon from 'react-native-vector-icons/AntDesign';
-import Spend from './Spend.js';
-import Balance from './Balance.js';
-import Sum from './Sum.js';
-import Category from './Category.js';
-import Tran from './Tran.js';
-import Block from './Block.js';
-import { Item } from 'antd-mobile/lib/tab-bar';
-import {RenderObject} from './RenderObject';
+import { Text, View, ScrollView, Dimensions, StyleSheet, TextInput } from 'react-native';
+import { WhiteSpace, Button } from 'antd-mobile-rn';
+import { RenderObject } from './RenderObject';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { postcases } from '../actions';
 
 class Work extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			name: '',
 			arrCondition: [],
 			arrAction: []
 		}
 
 		this.AddInArray = this.AddInArray.bind(this);
-		this.whatArg = this.whatArg.bind(this);		
+		this.whatArg = this.whatArg.bind(this);
+		this.SaveArray = this.SaveArray.bind(this);
+		this.ResetArray = this.ResetArray.bind(this);
 	}
 
 	whatArg(value, arr, arrType) {
@@ -128,7 +122,27 @@ class Work extends Component {
 
 		this.whatArg(value, arr, arrType);	
 	}
-	
+
+	SaveArray() {
+		const {arrCondition, arrAction} = this.state;
+		
+		postJson = {
+			name: this.state.name,
+			conditions: arrCondition,
+			actions: arrAction
+		};
+
+		this.props.postcases(postJson); 
+	}
+
+	ResetArray() {
+		this.setState({
+			name: '',
+			arrCondition: [],
+			arrAction: []
+		})
+	}
+
 	renderArray(arr) {
 		console.log('arr');
 		console.log(arr);
@@ -194,14 +208,39 @@ class Work extends Component {
 					<WhiteSpace/>	
 					<View style={{ flex: 1, flexDirection: 'row'}}>	
 						<Button type="ghost" inline size="large" onClick={() => {this.AddInArray('and', 2);}} style={{ marginLeft: 10 }}>И</Button>
-						<Button type="ghost" inline size="large" onClick={() => {this.AddInArray('or', 2);}} style={{ marginLeft: 10 }}>ИЛИ</Button>
-					</View> 
-				</View>				
+					</View>
+				</View>
+					<WhiteSpace/>
+				<View>
+					<View style={{ flex: 1, flexDirection: 'row'}}>	
+						<TextInput
+							style={{height: 40, borderBottomColor: 'gray', borderBottomWidth: 1}}
+							onChangeText={(name) => this.setState({name})}
+							placeholder = 'Введите название'
+							value={this.state.name}
+						/>
+						<Button type="primary" inline size="large" onClick={ () => this.SaveArray()} style={{ marginLeft: 10 }}>Сохранить</Button>
+					</View>
+				</View>
+				<View>
+					<View style={{ flex: 1, flexDirection: 'row'}}>	
+						<Button type="warning" inline size="large" onClick={ () => this.ResetArray()} style={{ marginLeft: 10 }}>Сбросить</Button>
+					</View>
+				</View>
 			</ScrollView>
 	)}
 }
 
-export default (Work);
+function mapStateToProps(state) {
+	const {data, loading, token} = state.postcases.PostCases;
+	return {data, loading, token};
+}
+
+function matchDispatchToProps (dispatch) {
+	return bindActionCreators ({ postcases: postcases}, dispatch)
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Work);
 
 const styles = StyleSheet.create({
 	container: {
